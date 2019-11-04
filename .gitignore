@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### Yoffa added stuff
 # Intellij
 **/.idea/workspace.xml 
@@ -7,6 +8,8 @@
 out/
 
 ### Java template stuff
+=======
+>>>>>>> bc50648504b40db1465d850b1eab45030483095f
 # Compiled class file
 *.class
 
