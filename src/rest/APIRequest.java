@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import io.github.cdimascio.dotenv.Dotenv;
 
 
 /**
@@ -26,11 +27,13 @@ public class APIRequest {
     private BufferedReader reader;
     private JSONObject JsonObject;
     private JSONArray results;
+    protected String APIKey = "9b77cc6f89f83a52b2bc2af8dbe50f58";
 
     public JSONArray getRequest(String type) {
         try {
             
-            URL url = new URL("http://api.themoviedb.org/3/discover/" + type +"?sort_by=popularity.desc&api_key=9b77cc6f89f83a52b2bc2af8dbe50f58");
+            
+            URL url = new URL("http://api.themoviedb.org/3/discover/" + type +"?sort_by=popularity.desc&api_key="+APIKey+"");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -49,10 +52,6 @@ public class APIRequest {
             }
             JsonObject = new JSONObject(jsonData.toString());
             results = (JSONArray) JsonObject.get("results");
-//            for (int i = 0; i < results.length(); i++){
-//                JSONObject object = (JSONObject) results.get(i);
-//                System.out.println(object);
-//            }
 
             conn.disconnect();
 

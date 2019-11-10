@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import rest.ContentParser;
 import java.awt.Font;
+import tools.ConnectionTester;
 /**
  *
  * @author binatangkesusahan
@@ -19,8 +20,8 @@ import java.awt.Font;
 public class MainUI extends javax.swing.JFrame {
     
     int idx = 0;
-    String type = "movie";
-
+    String type = "tv";
+    ConnectionTester check = new ConnectionTester();            
     /**
      * Creates new form main
      */
@@ -30,20 +31,21 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     public void fetch(int idx, String type){
-        try {
+        if (check.testInet()){
+            try {
                     ContentParser theFact = new ContentParser(type);
                     fetchProgressBar.setStringPainted(true);
 
                     System.out.println("Retrieving image...");
-                    fetchProgressBar.setString("Retrieving fact image...");
+                    fetchProgressBar.setString("Retrieving  image...");
                     posterImageLabel.setIcon(new ImageIcon(theFact.getPoster(idx)));
-
+                    
                     System.out.println("Retrieving title...");
-                    fetchProgressBar.setString("Retrieving fact title...");
+                    fetchProgressBar.setString("Retrieving  title...");
                     titleLabel.setText(theFact.getTitle(idx));
                     
                     System.out.println("Retrieving aired...");
-                    fetchProgressBar.setString("Retrieving fact title...");
+                    fetchProgressBar.setString("Retrieving  aired...");
                     airedLabel.setText(theFact.getAired(idx));
                     
                     System.out.println("Retrieving popularity...");
@@ -59,13 +61,16 @@ public class MainUI extends javax.swing.JFrame {
                     overviewLabel.setText("<html><p align='justify'>" + theFact.getOverview(idx) + "</p></html>");
                                         
                     fetchProgressBar.setString("Done!");
-
                     
                 }
                 catch (RuntimeException | IOException except){
                     System.out.println(except);
                     JOptionPane.showMessageDialog(null,except.toString());
                 }
+        } else{
+            JOptionPane.showMessageDialog(null,"Please Connect to Internet");
+        }
+        
                
     }
 
