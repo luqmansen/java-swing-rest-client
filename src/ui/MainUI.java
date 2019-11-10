@@ -19,6 +19,7 @@ import java.awt.Font;
 public class MainUI extends javax.swing.JFrame {
     
     int idx = 0;
+    String type = "movie";
 
     /**
      * Creates new form main
@@ -28,9 +29,9 @@ public class MainUI extends javax.swing.JFrame {
         
     }
     
-    public void fetch(int idx){
+    public void fetch(int idx, String type){
         try {
-                    ContentParser theFact = new ContentParser();
+                    ContentParser theFact = new ContentParser(type);
                     fetchProgressBar.setStringPainted(true);
 
                     System.out.println("Retrieving image...");
@@ -96,6 +97,7 @@ public class MainUI extends javax.swing.JFrame {
         overviewLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        chooseType = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -223,6 +225,18 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
+        chooseType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "tv", "movie" }));
+        chooseType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chooseTypeItemStateChanged(evt);
+            }
+        });
+        chooseType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chooseTypeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -235,14 +249,16 @@ public class MainUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(posterImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(81, 81, 81))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(chooseType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(posterImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(81, 81, 81)))
                         .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
@@ -260,7 +276,8 @@ public class MainUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nextButton)
                     .addComponent(prevButton)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(chooseType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(fetchProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -274,20 +291,28 @@ public class MainUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Max Data Reached");
         } else{
             idx++;
-            fetch(idx);
+            fetch(idx, type);
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         if (idx != 0){
             idx--;
-            fetch(idx);
+            fetch(idx, type);
         }       
     }//GEN-LAST:event_prevButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        fetch(idx);
+        fetch(idx, type);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void chooseTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chooseTypeActionPerformed
+
+    private void chooseTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chooseTypeItemStateChanged
+        type = chooseType.getSelectedItem().toString();
+    }//GEN-LAST:event_chooseTypeItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -331,6 +356,7 @@ public class MainUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel airedLabel;
+    private javax.swing.JComboBox<String> chooseType;
     private javax.swing.JProgressBar fetchProgressBar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel;

@@ -19,12 +19,12 @@ import javax.imageio.ImageIO;
 public class ContentParser {
     
     private APIRequest r = new APIRequest();
-    private JSONArray arr = r.getRequest();
+    private JSONArray arr;
     private final String imageBaseUrl = "http://image.tmdb.org/t/p/w154";
     private final String userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36";
 
-    public ContentParser() {
-
+    public ContentParser(String type) {
+           arr = r.getRequest(type);
     }
 
     public BufferedImage getImage(String imageURLString) throws IOException {
@@ -44,7 +44,13 @@ public class ContentParser {
     }
 
     public String getTitle(int idx) {
-        String title = arr.getJSONObject(idx).get("original_name").toString();
+        String title;
+        try {
+            title = arr.getJSONObject(idx).get("original_name").toString();
+            return title;
+        } catch (org.json.JSONException e){
+            title = arr.getJSONObject(idx).get("original_title").toString();
+        }
         return title;
     }
 
@@ -54,8 +60,15 @@ public class ContentParser {
     }
     
     public String getAired(int idx) {
-        String date = arr.getJSONObject(idx).get("first_air_date").toString();
-        return date;
+        String date;
+        try{
+           date = arr.getJSONObject(idx).get("first_air_date").toString();
+           return date;
+        } catch (org.json.JSONException e){
+           date = arr.getJSONObject(idx).get("release_date").toString();
+        }
+        return date; 
+        
     }
     
     public String getRating(int idx) {

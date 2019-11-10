@@ -27,9 +27,10 @@ public class APIRequest {
     private JSONObject JsonObject;
     private JSONArray results;
 
-    public JSONArray getRequest() {
+    public JSONArray getRequest(String type) {
         try {
-            URL url = new URL("http://api.themoviedb.org/3/discover/tv?sort_by=popularity.desc&api_key=9b77cc6f89f83a52b2bc2af8dbe50f58");
+            
+            URL url = new URL("http://api.themoviedb.org/3/discover/" + type +"?sort_by=popularity.desc&api_key=9b77cc6f89f83a52b2bc2af8dbe50f58");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
