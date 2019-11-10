@@ -17,6 +17,8 @@ import java.awt.Font;
  * @author binatangkesusahan
  */
 public class MainUI extends javax.swing.JFrame {
+    
+    int idx = 0;
 
     /**
      * Creates new form main
@@ -24,22 +26,37 @@ public class MainUI extends javax.swing.JFrame {
     public MainUI() throws IOException {
         initComponents();
         
+    }
+    
+    public void fetch(int idx){
         try {
                     ContentParser theFact = new ContentParser();
+                    fetchProgressBar.setStringPainted(true);
 
-
-                    System.out.println("Retrieving fact image...");
+                    System.out.println("Retrieving image...");
                     fetchProgressBar.setString("Retrieving fact image...");
-                    posterImageLabel.setIcon(new ImageIcon(theFact.getFactImage()));
+                    posterImageLabel.setIcon(new ImageIcon(theFact.getPoster(idx)));
 
-                    System.out.println("Retrieving fact title...");
+                    System.out.println("Retrieving title...");
                     fetchProgressBar.setString("Retrieving fact title...");
-                    titleLabel.setText(theFact.getFactTitle());
-
-                    System.out.println("Retrieving fact content...");
-                    fetchProgressBar.setString("Retrieving fact content...");
-                    overviewLabel.setText("<html><p align='justify'>" + theFact.getFactContent() + "</p></html>");
-
+                    titleLabel.setText(theFact.getTitle(idx));
+                    
+                    System.out.println("Retrieving aired...");
+                    fetchProgressBar.setString("Retrieving fact title...");
+                    airedLabel.setText(theFact.getAired(idx));
+                    
+                    System.out.println("Retrieving popularity...");
+                    fetchProgressBar.setString("Retrieving popularity...");
+                    popularityLabel.setText(theFact.getPopularity(idx));
+                    
+                    System.out.println("Retrieving rating...");
+                    fetchProgressBar.setString("Retrieving rating...");
+                    ratingLabel.setText(theFact.getRating(idx));
+                    
+                    System.out.println("Retrieving overview...");
+                    fetchProgressBar.setString("Retrieving  overview...");
+                    overviewLabel.setText("<html><p align='justify'>" + theFact.getOverview(idx) + "</p></html>");
+                                        
                     fetchProgressBar.setString("Done!");
 
                     
@@ -48,11 +65,7 @@ public class MainUI extends javax.swing.JFrame {
                     System.out.println(except);
                     JOptionPane.showMessageDialog(null,except.toString());
                 }
-                finally {
-                    fetchProgressBar.setString("not running");
-                }
-        
-            
+               
     }
 
     /**
@@ -66,20 +79,23 @@ public class MainUI extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        nextButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
+        fetchProgressBar = new javax.swing.JProgressBar();
+        posterImageLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
         jLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        nextButton = new javax.swing.JButton();
-        prevButton = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
         airedLabel = new javax.swing.JLabel();
         popularityLabel = new javax.swing.JLabel();
         ratingLabel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         overviewLabel = new javax.swing.JLabel();
-        fetchProgressBar = new javax.swing.JProgressBar();
-        posterImageLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -96,16 +112,6 @@ public class MainUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel3.setText("Popularity :");
-
-        jLabel2.setText("Aired :");
-
-        jLabel.setText("Title :");
-
-        jLabel1.setText("Rating :");
-
-        jLabel4.setText("Overview");
-
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,6 +120,19 @@ public class MainUI extends javax.swing.JFrame {
         });
 
         prevButton.setText("Previous");
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jLabel.setText("Title :");
+
+        jLabel1.setText("Rating :");
+
+        jLabel4.setText("Overview");
 
         titleLabel.setText("Boku No Hero");
 
@@ -123,103 +142,152 @@ public class MainUI extends javax.swing.JFrame {
 
         ratingLabel.setText("9.7");
 
+        jLabel3.setText("Popularity :");
+
         overviewLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        overviewLabel.setText(" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque efficitur augue, ac consectetur felis condimentum ac. Etiam venenatis ante felis, a ullamcorper felis consectetur at. Integer volutpat magna volutpat, faucibus lacus ac, imperdiet velit. Pellentesque nec feugiat risus. Maecenas tincidunt dolor ac sollicitudin euismod.");
+        overviewLabel.setText("<html> <p align='justify'> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque efficitur augue, ac consectetur felis condimentum ac. Etiam venenatis ante felis, a ullamcorper felis consectetur at. Integer volutpat magna volutpat, faucibus lacus ac, imperdiet velit. Pellentesque nec feugiat risus. Maecenas tincidunt dolor ac sollicitudin euismod. </p></html>");
         overviewLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         overviewLabel.setAutoscrolls(true);
         overviewLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         overviewLabel.setFocusable(false);
 
+        jLabel2.setText("Aired :");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(popularityLabel))
+                    .addComponent(overviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(titleLabel))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(airedLabel))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ratingLabel)))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(titleLabel)
+                    .addComponent(jLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(airedLabel)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(popularityLabel)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ratingLabel)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(overviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        Font font=new Font(jLabel.getFont().getName(),Font.BOLD,jLabel.getFont().getSize());
+
+        jLabel.setFont(font);
+        jLabel1.setFont(font);
+        jLabel4.setFont(font);
+        jLabel3.setFont(font);
+        jLabel2.setFont(font);
+
+        jScrollPane1.setViewportView(jPanel2);
+
+        jButton1.setText("Fetch");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(posterImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(airedLabel))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(titleLabel))
-                                    .addComponent(jLabel4)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel1))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(ratingLabel)
-                                            .addComponent(popularityLabel)))
-                                    .addComponent(overviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(posterImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(81, 81, 81))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(76, 76, 76)
                         .addComponent(fetchProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel)
-                            .addComponent(titleLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(airedLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(popularityLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(ratingLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(overviewLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(posterImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(prevButton)
-                            .addComponent(nextButton))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(posterImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nextButton)
+                    .addComponent(prevButton)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(fetchProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
-
-        Font font=new Font(jLabel.getFont().getName(),Font.ITALIC+Font.BOLD,jLabel.getFont().getSize());
-
-        jLabel.setFont(font);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        // TODO add your handling code here:
+        if (idx == 19){
+            JOptionPane.showMessageDialog(null,"Max Data Reached");
+        } else{
+            idx++;
+            fetch(idx);
+        }
     }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+        if (idx != 0){
+            idx--;
+            fetch(idx);
+        }       
+    }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        fetch(idx);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,12 +332,15 @@ public class MainUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel airedLabel;
     private javax.swing.JProgressBar fetchProgressBar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton nextButton;
     private javax.swing.JLabel overviewLabel;

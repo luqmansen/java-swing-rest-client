@@ -25,7 +25,6 @@ public class ContentParser {
 
     public ContentParser() {
 
-
     }
 
     public BufferedImage getImage(String imageURLString) throws IOException {
@@ -39,19 +38,34 @@ public class ContentParser {
         return image;
     }
 
-    public BufferedImage getFactImage() throws IOException {
-        String imgURL = imageBaseUrl + arr.getJSONObject(1).get("poster_path").toString();
+    public BufferedImage getPoster(int idx) throws IOException {
+        String imgURL = imageBaseUrl + arr.getJSONObject(idx).get("poster_path").toString();
         return getImage(imgURL);
     }
 
-    public String getFactTitle() {
-        String title = arr.getJSONObject(1).get("original_name").toString();
+    public String getTitle(int idx) {
+        String title = arr.getJSONObject(idx).get("original_name").toString();
         return title;
     }
 
-    public String getFactContent() {
-        String overview = arr.getJSONObject(1).get("overview").toString();
+    public String getOverview(int idx) {
+        String overview = arr.getJSONObject(idx).get("overview").toString();
         return overview;
+    }
+    
+    public String getAired(int idx) {
+        String date = arr.getJSONObject(idx).get("first_air_date").toString();
+        return date;
+    }
+    
+    public String getRating(int idx) {
+        String rate = arr.getJSONObject(idx).get("vote_average").toString();
+        return rate;
+    }
+    
+    public String getPopularity(int idx) {
+        String pop = arr.getJSONObject(idx).get("popularity").toString();
+        return pop;
     }
 
 }
