@@ -1,4 +1,9 @@
-package REST;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package rest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,14 +12,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
-import com.github.cliftonlabs.json_simple.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 
-public class Request {
 
+/**
+ *
+ * @author binatangkesusahan
+ */
+public class APIRequest {
+    
     private ArrayList bgImages;
     private BufferedReader reader;
     private JSONObject JsonObject;
@@ -58,5 +65,5 @@ public class Request {
         }
         return results;
     }
-
+    
 }
