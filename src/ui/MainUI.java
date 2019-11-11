@@ -303,18 +303,28 @@ public class MainUI extends javax.swing.JFrame {
         if (idx == 19){
 //            JOptionPane.showMessageDialog(null,"Max Data Reached");
             page++;
+            idx = 0;
             fetch(idx,type,page);
         } else{
             idx++;
             fetch(idx, type,page);
         }
+        System.out.println("idx = " +idx);
+        System.out.println("page = " +page);
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         if (idx != 0){
             idx--;
-            fetch(idx, type,page);
-        }       
+        } else if (idx  == 0){
+            if (page != 1){
+                page--;
+                idx = 19;
+            }  
+        }
+        System.out.println("idx = " +idx);
+        System.out.println("page = " +page);
+        fetch(idx, type,page);
     }//GEN-LAST:event_prevButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
