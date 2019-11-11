@@ -19,12 +19,13 @@ import javax.imageio.ImageIO;
 public class ContentParser {
     
     private APIRequest r = new APIRequest();
+    private int page  = 1;
     private JSONArray arr;
     private final String imageBaseUrl = "http://image.tmdb.org/t/p/w154";
     private final String userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36";
 
-    public ContentParser(String type) {
-           arr = r.getRequest(type);
+    public ContentParser(String type, int page) {
+           arr = r.getRequest(type,page);
     }
 
     public BufferedImage getImage(String imageURLString) throws IOException {

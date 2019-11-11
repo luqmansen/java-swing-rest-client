@@ -21,6 +21,7 @@ public class MainUI extends javax.swing.JFrame {
     
     int idx = 0;
     String type = "tv";
+    int page = 1;
     ConnectionTester check = new ConnectionTester();            
     /**
      * Creates new form main
@@ -30,10 +31,10 @@ public class MainUI extends javax.swing.JFrame {
         
     }
     
-    public void fetch(int idx, String type){
+    public void fetch(int idx, String type,int page){
         if (check.testInet()){
             try {
-                    ContentParser theFact = new ContentParser(type);
+                    ContentParser theFact = new ContentParser(type,page);
                     fetchProgressBar.setStringPainted(true);
 
                     System.out.println("Retrieving image...");
@@ -118,6 +119,7 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jPanel1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(425, 284));
 
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
@@ -134,6 +136,8 @@ public class MainUI extends javax.swing.JFrame {
         });
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jPanel2.setMaximumSize(new java.awt.Dimension(327670, 327670));
 
         jLabel.setText("Title :");
 
@@ -157,6 +161,10 @@ public class MainUI extends javax.swing.JFrame {
         overviewLabel.setAutoscrolls(true);
         overviewLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         overviewLabel.setFocusable(false);
+        overviewLabel.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        overviewLabel.setMinimumSize(new java.awt.Dimension(1, 1));
+        overviewLabel.setName(""); // NOI18N
+        overviewLabel.setPreferredSize(new java.awt.Dimension(1, 1));
 
         jLabel2.setText("Aired :");
 
@@ -250,25 +258,25 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(posterImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(chooseType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(posterImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(81, 81, 81)))
+                                .addGap(24, 24, 24)))
                         .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
+                        .addGap(79, 79, 79)
                         .addComponent(fetchProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,9 +291,9 @@ public class MainUI extends javax.swing.JFrame {
                     .addComponent(prevButton)
                     .addComponent(jButton1)
                     .addComponent(chooseType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fetchProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -293,22 +301,24 @@ public class MainUI extends javax.swing.JFrame {
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         if (idx == 19){
-            JOptionPane.showMessageDialog(null,"Max Data Reached");
+//            JOptionPane.showMessageDialog(null,"Max Data Reached");
+            page++;
+            fetch(idx,type,page);
         } else{
             idx++;
-            fetch(idx, type);
+            fetch(idx, type,page);
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         if (idx != 0){
             idx--;
-            fetch(idx, type);
+            fetch(idx, type,page);
         }       
     }//GEN-LAST:event_prevButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        fetch(idx, type);
+        fetch(idx, type,page);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void chooseTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseTypeActionPerformed

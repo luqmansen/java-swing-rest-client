@@ -29,11 +29,11 @@ public class APIRequest {
     private JSONArray results;
     protected String APIKey = "9b77cc6f89f83a52b2bc2af8dbe50f58";
 
-    public JSONArray getRequest(String type) {
+    public JSONArray getRequest(String type, int page) {
         try {
             
             
-            URL url = new URL("http://api.themoviedb.org/3/discover/" + type +"?sort_by=popularity.desc&api_key="+APIKey+"");
+            URL url = new URL("http://api.themoviedb.org/3/discover/" + type +"?sort_by=popularity.desc&api_key="+APIKey+"&page="+page+"");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
